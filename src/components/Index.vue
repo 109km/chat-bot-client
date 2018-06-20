@@ -5,7 +5,7 @@
     </div>
   </div>
   <div class="chat-input">
-      <input type="text" v-model="message" v-on:click="inputMessage" v-on:keyup.enter="sendMessage" placeholder="请输入" />
+      <input type="text" v-model="message" v-on:keyup.enter="sendMessage" placeholder="请输入" />
       <button v-on:click="sendMessage">
         询问
       </button>
@@ -87,6 +87,7 @@ export default {
         value: message
       });
 
+      // Get AI's repsonse.
       axios
         .get(`${CONFIG.SERVER_HOST}/api/message/` + encodeURIComponent(message))
         .then(function(res) {
