@@ -16,10 +16,7 @@
 <script>
 import axios from "axios";
 import CONFIG from "../config";
-import INTENTS from '../components/intent.js';
-
-
-
+import INTENTS from "../components/intent.js";
 export default {
   name: "Index",
   props: {
@@ -53,7 +50,10 @@ export default {
     sendMessage() {
       let _this = this;
       let message = _this.message;
-      _this.message = "";
+      _this.message = {
+        type: "message",
+        value: message
+      };
       _this.messages.push({
         type: "request",
         value: message
@@ -61,7 +61,7 @@ export default {
 
       // Get AI's repsonse.
       axios
-        .get(`${CONFIG.SERVER_HOST}/api/message/` + encodeURIComponent(message))
+        .post(`${CONFIG.SERVER_HOST}/api/messages/`, { message })
         .then(function(res) {
           _this.renderResponse(res.data);
         });
