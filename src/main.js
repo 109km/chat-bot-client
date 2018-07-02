@@ -1,19 +1,18 @@
-import Vue from '../node_modules/vue/dist/vue'
+import Vue from '../node_modules/vue/dist/vue.min.js'
 import BotUI from 'botui'
-import * as dialog from './dialogs/index';
-// import App from './App.vue'
+import Dialog from './dialogs/index';
+// import inputContainer from './components/input.vue'
 
 Vue.config.productionTip = false;
 const botui = new BotUI('app', {
   vue: Vue // pass the dependency.
 });
 
-async function init() {
-  let result = await dialog.hello(botui);
-  console.log(result);
-}
+// Vue.component('input-container', inputContainer);
 
-init();
+// Start the dialog !
+const dialog = new Dialog(botui);
+dialog.start(botui);
 
 
 

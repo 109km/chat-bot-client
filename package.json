@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev":"vue-cli-service serve --mode=production",
+    "dev": "vue-cli-service serve --mode=production",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
@@ -11,7 +11,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "botui": "^0.3.4",
-    "vue": "^2.5.16"
+    "vue": "^2.0.5"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.0-beta.15",
