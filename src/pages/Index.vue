@@ -1,38 +1,39 @@
 <template>
   <div class="container" id="app">
-  <div class="chat-container">
-    <div v-for="item in messages" v-bind:key="item.id" v-bind:class="['chat-item' ,'chat-item-' + item.type]" v-html="item.value">
+    <div class="chat-container">
+      <div v-for="item in messages" v-bind:key="item.id" v-bind:class="['chat-item' ,'chat-item-' + item.type]" v-html="item.value">
+      </div>
     </div>
-  </div>
-  <div class="chat-input">
-      <input type="text" v-model="message" v-on:keyup.enter="sendMessage" placeholder="请输入" />
-      <button v-on:click="sendMessage">
-        询问
-      </button>
-    </div>
+    <InputComponent />
   </div>
 </template>
-
 <script>
 import axios from "axios";
+import { mapGetters, mapState } from "vuex";
 import CONFIG from "../config";
 import INTENTS from "../components/intent.js";
+import InputComponent from "../components/input.vue";
 export default {
   name: "Index",
-  props: {
-    msg: String
+  components: {
+    InputComponent
   },
-  data() {
-    return {
-      message: "",
-      messages: [
-        {
-          type: "response",
-          value: "您好，我是学历咨询机器人，小智。您有什么问题呢？"
-        }
-      ]
-    };
+  computed: {
+    ...mapState({
+      messages: state => state.messages
+    })
   },
+  // data() {
+  //   return {
+  //     message: "",
+  //     messages: [
+  //       {
+  //         type: "response",
+  //         value: "您好，我是学历咨询机器人，小智。您有什么问题呢？"
+  //       }
+  //     ]
+  //   };
+  // },
   methods: {
     renderResponse(res) {
       let responseValue = "";
@@ -46,25 +47,6 @@ export default {
         type: "response",
         value: responseValue
       });
-    },
-    sendMessage() {
-      let _this = this;
-      let message = _this.message;
-      _this.message = {
-        type: "message",
-        value: message
-      };
-      _this.messages.push({
-        type: "request",
-        value: message
-      });
-
-      // Get AI's repsonse.
-      axios
-        .post(`${CONFIG.SERVER_HOST}/api/messages/`, { message })
-        .then(function(res) {
-          _this.renderResponse(res.data);
-        });
     }
   }
 };

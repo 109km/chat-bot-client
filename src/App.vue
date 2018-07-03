@@ -1,14 +1,15 @@
 <template>
   <!-- <img src="./assets/logo.png"> -->
-  <InputComponent />
+  <Index />
 </template>
 
 <script>
-import InputComponent from './components/input.vue'
+
+import Index from './pages/Index';
 export default {
   name: 'app',
   components: {
-    InputComponent
+    Index
   }
 }
 </script>
