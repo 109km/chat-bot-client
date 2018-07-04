@@ -1,7 +1,7 @@
 <template>
   <div class="container" id="app">
     <div class="chat-container">
-      <div v-for="item in messages" v-bind:key="item.id" v-bind:class="['chat-item' ,'chat-item-' + item.type]" v-html="item.value">
+      <div v-for="item in message.messagesPool" v-bind:key="item.id" v-bind:class="['chat-item' ,'chat-item-' + item.type]" v-html="item.value">
       </div>
     </div>
     <InputComponent />
@@ -13,27 +13,15 @@ import { mapGetters, mapState } from "vuex";
 import CONFIG from "../config";
 import INTENTS from "../components/intent.js";
 import InputComponent from "../components/input.vue";
+
 export default {
   name: "Index",
   components: {
     InputComponent
   },
-  computed: {
-    ...mapState({
-      messages: state => state.messages
-    })
-  },
-  // data() {
-  //   return {
-  //     message: "",
-  //     messages: [
-  //       {
-  //         type: "response",
-  //         value: "您好，我是学历咨询机器人，小智。您有什么问题呢？"
-  //       }
-  //     ]
-  //   };
-  // },
+  computed: mapState({
+    message: "message"
+  }),
   methods: {
     renderResponse(res) {
       let responseValue = "";
@@ -43,8 +31,8 @@ export default {
       } else {
         responseValue = "您的网络开小叉了，稍后再试试。";
       }
-      this.messages.push({
-        type: "response",
+      this.$store.dispatch("message/sendMessageToUser", {
+        type: "bot",
         value: responseValue
       });
     }

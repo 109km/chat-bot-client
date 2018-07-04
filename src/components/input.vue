@@ -8,32 +8,37 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from "vuex";
+import { mapActions } from "vuex";
+import axios from "axios";
+import CONFIG from "../config";
 export default {
   name: "InputComponent",
-  data(){
+  data() {
     return {
-      message: ''
-    }
+      message: ""
+    };
   },
   methods: {
     sendMessage() {
       let _this = this;
       let message = _this.message;
-      // _this.message = {
-      //   type: "message",
-      //   value: message
-      // };
-      // _this.messages.push({
-      //   type: "request",
-      //   value: message
-      // });
+
+      if (message === "") {
+        return;
+      }
+
+      _this.$store.dispatch("message/sendMessageToBot", {
+        type: "user",
+        value: message
+      });
+
+      _this.message = "";
 
       // Get AI's repsonse.
       axios
-        .get(`${CONFIG.SERVER_HOST}/api/messages/`, { message })
+        .get(`${CONFIG.SERVER_HOST}/api/message/` + message)
         .then(function(res) {
-          _this.renderResponse(res.data);
+          _this.$parent.renderResponse(res.data);
         });
     }
   }
