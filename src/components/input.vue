@@ -10,13 +10,33 @@
 <script>
 import { mapActions } from "vuex";
 import axios from "axios";
+import Dialog from "./dialog.js";
 import CONFIG from "../config";
+
+const dialog = new Dialog();
+
 export default {
   name: "InputComponent",
   data() {
     return {
       message: ""
     };
+  },
+  mounted() {
+    let _this = this;
+    dialog.add(
+      "step1",
+      [
+        function() {
+          _this.$store.dispatch("message/sendMessageToBot", {
+            type: "bot",
+            value: "step2"
+          });
+        },
+        function() {}
+      ],
+      "step1"
+    );
   },
   methods: {
     sendMessage() {
@@ -31,6 +51,9 @@ export default {
         type: "user",
         value: message
       });
+
+      dialog.find(message);
+      dialog.next();
 
       _this.message = "";
 

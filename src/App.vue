@@ -1,5 +1,4 @@
 <template>
-  <!-- <img src="./assets/logo.png"> -->
   <Index />
 </template>
 

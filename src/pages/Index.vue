@@ -9,6 +9,7 @@
 </template>
 <script>
 import axios from "axios";
+
 import { mapGetters, mapState } from "vuex";
 import CONFIG from "../config";
 import INTENTS from "../components/intent.js";
