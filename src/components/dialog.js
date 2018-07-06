@@ -44,14 +44,23 @@ export default class Dialog {
 
   /**
    * @desc Do next step of the dialog.
-   * @param {Object} options
+   * @param {String} input
    */
-  next() {
+  next(input) {
     let dialog = this.getCurrentDialog();
-    if (Util.typeof(dialog) === 'undefined') {
+    if (!dialog) {
       return;
     }
-    dialog.steps[this.currentStep].call();
+    if (this.currentStep < dialog.steps.length) {
+      dialog.steps[this.currentStep].call(this, input);
+      this.currentStep++;
+    }
+
+    // If no more steps left, pop current dialog.
+    if (this.currentStep === dialog.steps.length) {
+      this.pop();
+    }
+
   }
 
   /**
@@ -61,19 +70,19 @@ export default class Dialog {
   find(input) {
     let dialogItem = null;
     this.dialogs.forEach((item) => {
-      console.log(item.triggerAction);
       if (item.triggerAction.test(input)) {
         dialogItem = item;
         this.currentDialogStack.push(dialogItem);
       }
     });
+    return dialogItem;
   }
 
   /**
    * @desc Get the current dialog.
    */
   getCurrentDialog() {
-    return this.currentDialogStack[0];
+    return this.currentDialogStack.length > 0 ? this.currentDialogStack[0] : false;
   }
   /**
    * @desc Add dialog into the stack.
@@ -86,6 +95,14 @@ export default class Dialog {
    */
   pop() {
     this.currentDialogStack.shift();
+  }
+
+  /**
+   * @desc Finish the dialog flow.
+   */
+  end() {
+    this.currentDialogStack = [];
+    this.currentStep = 0;
   }
 
 }

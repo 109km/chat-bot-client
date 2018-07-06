@@ -33,7 +33,14 @@ export default {
             value: "step2"
           });
         },
-        function() {}
+        function(answer) {
+          if (answer === "answer") {
+            _this.$store.dispatch("message/sendMessageToBot", {
+              type: "bot",
+              value: "Bot receive your " + answer
+            });
+          }
+        }
       ],
       "step1"
     );
@@ -42,7 +49,7 @@ export default {
     sendMessage() {
       let _this = this;
       let message = _this.message;
-
+      _this.message = "";
       if (message === "") {
         return;
       }
@@ -52,17 +59,20 @@ export default {
         value: message
       });
 
-      dialog.find(message);
-      dialog.next();
-
-      _this.message = "";
-
-      // Get AI's repsonse.
-      axios
-        .get(`${CONFIG.SERVER_HOST}/api/message/` + message)
-        .then(function(res) {
-          _this.$parent.renderResponse(res.data);
-        });
+      if (dialog.getCurrentDialog()) {
+        dialog.next(message);
+      } else {
+        if (dialog.find(message)) {
+          dialog.next(message);
+        } else {
+          // Get AI's repsonse.
+          axios
+            .get(`${CONFIG.SERVER_HOST}/api/message/` + message)
+            .then(function(res) {
+              _this.$parent.renderResponse(res.data);
+            });
+        }
+      }
     }
   }
 };
