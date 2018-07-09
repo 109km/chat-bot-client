@@ -29,15 +29,21 @@ export default {
       [
         function() {
           _this.$store.dispatch("message/sendMessageToBot", {
-            type: "bot",
-            value: "step2"
+            sendType: "bot",
+            payload: {
+              type: "text",
+              value: "step2"
+            }
           });
         },
         function(answer) {
           if (answer === "answer") {
             _this.$store.dispatch("message/sendMessageToBot", {
-              type: "bot",
-              value: "Bot receive your " + answer
+              sendType: "bot",
+              payload: {
+                type: "text",
+                value: "Bot receive your " + answer
+              }
             });
           }
         }
@@ -55,8 +61,11 @@ export default {
       }
 
       _this.$store.dispatch("message/sendMessageToBot", {
-        type: "user",
-        value: message
+        sendType: "user",
+        payload: {
+          type: "text",
+          value:message
+        }
       });
 
       if (dialog.getCurrentDialog()) {

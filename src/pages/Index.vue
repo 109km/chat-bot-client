@@ -1,7 +1,15 @@
 <template>
   <div class="container" id="app">
     <div class="chat-container">
-      <div v-for="item in message.messagesPool" v-bind:key="item.id" v-bind:class="['chat-item' ,'chat-item-' + item.type]" v-html="item.value">
+      <div 
+      v-for="item in message.messagesPool" 
+      v-bind:key="item.id" 
+      v-bind:class="['chat-item' ,'chat-item-' + item.sendType]" 
+      >
+        <MessageText v-if="item.payload.type === 'text'" :text="item.payload.value"/>
+        <MessageLink v-else-if="item.payload.type === 'link'" :link="item.payload.value"/>
+        <MessageImage v-else-if="item.payload.type === 'image'" :image="item.payload.value"/>
+        <MessageList v-else-if="item.payload.type === 'list'" :list="item.payload.value"/>
       </div>
     </div>
     <InputComponent />
@@ -9,16 +17,23 @@
 </template>
 <script>
 import axios from "axios";
-
 import { mapGetters, mapState } from "vuex";
 import CONFIG from "../config";
 import INTENTS from "../components/intent.js";
 import InputComponent from "../components/input.vue";
+import MessageText from "../components/message/text";
+import MessageLink from "../components/message/link";
+import MessageImage from "../components/message/image";
+import MessageList from "../components/message/list";
 
 export default {
   name: "Index",
   components: {
-    InputComponent
+    InputComponent,
+    MessageText,
+    MessageLink,
+    MessageImage,
+    MessageList
   },
   computed: mapState({
     message: "message"
@@ -30,11 +45,14 @@ export default {
       if (res.code === 0) {
         responseValue = INTENTS[data.intent].call(null, data);
       } else {
-        responseValue = "您的网络开小叉了，稍后再试试。";
+        responseValue = {
+          type: "text",
+          value:"您的网络开小叉了，稍后再试试。"
+        };
       }
       this.$store.dispatch("message/sendMessageToUser", {
-        type: "bot",
-        value: responseValue
+        sendType: "bot",
+        payload: responseValue
       });
     }
   }
