@@ -75,7 +75,21 @@ export default class Dialog {
     });
     return dialogItem;
   }
-
+  /**
+   * @desc Get the dialog by name.
+   * @param {String} name
+   * @return {Object}
+   */
+  getDialogByName(name) {
+    let dialog;
+    this.dialogs.forEach((item, index) => {
+      if (item.name === name) {
+        dialog = item;
+        return;
+      }
+    });
+    return dialog;
+  }
   /**
    * @desc Get the current dialog.
    */

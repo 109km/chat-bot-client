@@ -10,10 +10,10 @@
 <script>
 import { mapActions } from "vuex";
 import axios from "axios";
-import Dialog from "./dialog.js";
 import CONFIG from "../config";
+import Flow from "../components/flow/index";
 
-const dialog = new Dialog();
+let flow;
 
 export default {
   name: "InputComponent",
@@ -23,33 +23,8 @@ export default {
     };
   },
   mounted() {
-    let _this = this;
-    dialog.add(
-      "step1",
-      [
-        function() {
-          _this.$store.dispatch("message/sendMessageToBot", {
-            sendType: "bot",
-            payload: {
-              type: "text",
-              value: "step2"
-            }
-          });
-        },
-        function(answer) {
-          if (answer === "answer") {
-            _this.$store.dispatch("message/sendMessageToBot", {
-              sendType: "bot",
-              payload: {
-                type: "text",
-                value: "Bot receive your " + answer
-              }
-            });
-          }
-        }
-      ],
-      "step1"
-    );
+    flow = new Flow(this);
+    flow.init();
   },
   methods: {
     sendMessage() {
@@ -59,30 +34,22 @@ export default {
       if (message === "") {
         return;
       }
-
+      // UI展示发送信息
       _this.$store.dispatch("message/sendMessageToBot", {
         sendType: "user",
         payload: {
           type: "text",
-          value:message
+          value: message
         }
       });
-      console.log(dialog.getCurrentDialog());
-      if (dialog.getCurrentDialog()) {
-        dialog.next(message);
-      } else {
-        if (dialog.find(message)) {
-          console.log(`dialog.find`);
-          dialog.next(message);
-        } else {
-          // Get AI's repsonse.
-          axios
-            .get(`${CONFIG.SERVER_HOST}/api/message/` + message)
-            .then(function(res) {
-              _this.$parent.renderResponse(res.data);
-            });
-        }
-      }
+      // 流程检查
+      flow.check(message, () => {
+        axios
+          .get(`${CONFIG.SERVER_HOST}/api/message/` + message)
+          .then(function(res) {
+            _this.$parent.renderResponse(res.data);
+          });
+      });
     }
   }
 };

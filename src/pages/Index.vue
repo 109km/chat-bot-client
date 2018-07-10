@@ -47,7 +47,7 @@ export default {
       } else {
         responseValue = {
           type: "text",
-          value:"您的网络开小叉了，稍后再试试。"
+          value: "您的网络开小叉了，稍后再试试。"
         };
       }
       this.$store.dispatch("message/sendMessageToUser", {
