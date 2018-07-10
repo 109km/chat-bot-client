@@ -67,11 +67,12 @@ export default {
           value:message
         }
       });
-
+      console.log(dialog.getCurrentDialog());
       if (dialog.getCurrentDialog()) {
         dialog.next(message);
       } else {
         if (dialog.find(message)) {
+          console.log(`dialog.find`);
           dialog.next(message);
         } else {
           // Get AI's repsonse.

@@ -14,9 +14,6 @@ export default class Dialog {
     // Maintain the dialog stack.
     this.currentDialogStack = [];
 
-    // Store the current step of one dialog.
-    this.currentStep = 0;
-
   }
 
   /**
@@ -35,6 +32,7 @@ export default class Dialog {
       throw (new Error(`'triggerAction' should be a string or a regex.`));
     }
     this.dialogs.push({
+      currentStep: 0,
       name: name,
       steps: steps,
       triggerAction: trigger,
@@ -48,19 +46,19 @@ export default class Dialog {
    */
   next(input) {
     let dialog = this.getCurrentDialog();
+    console.log('next', dialog);
     if (!dialog) {
       return;
     }
-    if (this.currentStep < dialog.steps.length) {
-      dialog.steps[this.currentStep].call(this, input);
-      this.currentStep++;
+    if (dialog.currentStep < dialog.steps.length) {
+      dialog.steps[dialog.currentStep].call(this, input);
+      dialog.currentStep++;
     }
-
     // If no more steps left, pop current dialog.
-    if (this.currentStep === dialog.steps.length) {
+    if (dialog.currentStep === dialog.steps.length) {
+      dialog.currentStep = 0;
       this.pop();
     }
-
   }
 
   /**
@@ -91,7 +89,7 @@ export default class Dialog {
     this.currentDialogStack.unshift(dialogItem);
   }
   /**
-   * @desc Add dialog into the stack.
+   * @desc Pop dialog from the stack.
    */
   pop() {
     this.currentDialogStack.shift();
@@ -102,7 +100,6 @@ export default class Dialog {
    */
   end() {
     this.currentDialogStack = [];
-    this.currentStep = 0;
   }
 
 }
