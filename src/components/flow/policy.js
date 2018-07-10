@@ -1,4 +1,7 @@
-export default function definePolicy(vm, dialog) {
+export default function definePolicy(flow) {
+  const vm = flow.vm;
+  const dialog = flow.dialog;
+  
   dialog.add(
     "examPolicy", [
       function() {

@@ -1,22 +1,24 @@
-import policy from './policy';
 import Dialog from "../dialog";
-
-const dialog = new Dialog();
+import policy from './policy';
+import price from './price';
 
 export default class Flow {
   constructor(vm) {
     this.vm = vm;
     this.inited = false;
+    this.dialog = new Dialog();
   }
   init() {
     if (this.inited) {
       return;
     }
-    const vm = this.vm;
     this.inited = true;
-    policy(vm, dialog);
+    policy.call(null, this);
+    price.call(null, this);
+
   }
   check(message, callback) {
+    const dialog = this.dialog;
     if (dialog.getCurrentDialog()) {
       dialog.next(message);
     } else {
