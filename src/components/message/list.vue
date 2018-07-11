@@ -8,9 +8,16 @@
   </div>
 </template>
 <script>
+
+import Flow from '../flow/index';
+
+let flow;
 export default {
   props: {
     list: Array
+  },
+  mounted() {
+    flow = new Flow(this);
   },
   methods: {
     onClick(e, item) {
@@ -18,13 +25,14 @@ export default {
       if (item.openType === "link") {
         location.href = item.href;
       } else if (item.openType === "text") {
-        this.$store.dispatch("message/sendMessageToBot", {
-          sendType: "user",
-          payload: {
-            type: "text",
-            value: item.text
-          }
-        });
+        let message =item.text;
+        flow.send("text", message, () => {
+        axios
+          .get(`${CONFIG.SERVER_HOST}/api/message/` + message)
+          .then(function(res) {
+            _this.$parent.renderResponse(res.data);
+          });
+      });
       }
     }
   }

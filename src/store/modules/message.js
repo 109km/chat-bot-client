@@ -1,4 +1,3 @@
-// import shop from '../../api/shop'
 
 // initial state
 const state = {
@@ -6,7 +5,7 @@ const state = {
     sendType: "bot",
     payload: {
       type: "text",
-      value: "您好，我是学历咨询机器人，小智。您有什么问题呢？"
+      value: "您好，我是学历咨询机器人小智。您有什么问题呢？"
     }
   }]
 }

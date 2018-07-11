@@ -1,3 +1,10 @@
+/**
+ * @desc Class `Dialog` is used to control each dialog.
+ * We can define a group of related asks and answers is a `dialog`.
+ * Multiple dialogs can be nested.
+ */
+
+
 import Util from '../utils/util';
 
 export default class Dialog {
@@ -5,7 +12,7 @@ export default class Dialog {
     // Collection of the defined dialogs.
     this.dialogs = [];
 
-    // Collection of triggerActions.
+    // Collection of triggerActions.  
     this.triggerActions = [];
 
     // Current dialog's name.

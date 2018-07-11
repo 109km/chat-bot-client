@@ -23,8 +23,8 @@ export default {
     };
   },
   mounted() {
+    console.log(this.$store);
     flow = new Flow(this);
-    flow.init();
   },
   methods: {
     sendMessage() {
@@ -34,16 +34,8 @@ export default {
       if (message === "") {
         return;
       }
-      // UI展示发送信息
-      _this.$store.dispatch("message/sendMessageToBot", {
-        sendType: "user",
-        payload: {
-          type: "text",
-          value: message
-        }
-      });
-      // 流程检查
-      flow.check(message, () => {
+
+      flow.send("text", message, () => {
         axios
           .get(`${CONFIG.SERVER_HOST}/api/message/` + message)
           .then(function(res) {
