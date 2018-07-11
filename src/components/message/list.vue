@@ -10,6 +10,8 @@
 <script>
 
 import Flow from '../flow/index';
+import axios from "axios";
+import CONFIG from "../../config";
 
 let flow;
 export default {
