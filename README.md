@@ -1,5 +1,6 @@
 ## Introduction
-The is the client side for a chat bot.
+The is the client side for a chat bot. This project also works with a server side which is integrated with `LUIS`.
+But the server's code isn't open yet.
 
 ## Tech stack
 
@@ -11,7 +12,6 @@ The is the client side for a chat bot.
 
 1. clone this repo.
 
-2. Run `npm install` in the root directory.
+2. Run `cd client && npm install`.
 
 3. Run `npm run serve`. Open `http://localhost:8080/` to have a try.
-
