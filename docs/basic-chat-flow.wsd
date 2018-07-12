@@ -1,0 +1,9 @@
+@startuml
+Human -> Bot: 发起问题
+Bot -> Service: 寻找答案
+Service -> LUIS: 发送请求
+LUIS -> Service: 返回intent和entity
+Service -> Service: 根据intent决定处理流程
+Service -> Bot: 返回答案
+Bot -> Human: 展示答案
+@enduml

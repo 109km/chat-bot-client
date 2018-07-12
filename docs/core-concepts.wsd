@@ -1,0 +1,18 @@
+@startuml
+
+add - [Dialog]
+find - [Dialog]
+steps . [Dialog] 
+
+[Message] . type
+[Message] . data
+
+send - [Flow]
+
+[Flow] --> [Dialog] : control
+
+[Dialog] --> [Message] : include
+
+
+
+@enduml
