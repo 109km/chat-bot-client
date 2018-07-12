@@ -4,6 +4,9 @@ import price from './price';
 
 let flowInstance;
 
+/**
+ * @desc Singleton pattern. Only one flow instance will exist.
+ */
 export default class Flow {
   constructor(vm) {
     if ( flowInstance instanceof Flow ){
