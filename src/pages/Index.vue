@@ -21,21 +21,13 @@ import { mapGetters, mapState } from "vuex";
 import CONFIG from "../config";
 import INTENTS from "../components/intent.js";
 import InputComponent from "../components/input.vue";
-import {
-  MessageText,
-  MessageLink,
-  MessageImage,
-  MessageList
-} from "../components/message/index";
+import * as MessageComponents from "../components/message/index";
 
 export default {
   name: "Index",
   components: {
     InputComponent,
-    MessageText,
-    MessageLink,
-    MessageImage,
-    MessageList
+    ...MessageComponents.default
   },
   computed: mapState({
     message: "message"

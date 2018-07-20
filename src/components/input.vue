@@ -16,7 +16,6 @@ import Flow from "../components/flow/index";
 let flow;
 
 export default {
-  name: "InputComponent",
   data() {
     return {
       message: ""

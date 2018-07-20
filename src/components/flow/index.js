@@ -12,7 +12,6 @@ export default class Flow {
     if ( flowInstance instanceof Flow ){
       return flowInstance;
     }
-    console.log('Flow constructor',vm);
     this.vm = vm;
     this.inited = false;
     this.dialog = new Dialog();
