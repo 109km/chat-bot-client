@@ -16,10 +16,7 @@
   </div>
 </template>
 <script>
-import axios from "axios";
 import { mapGetters, mapState } from "vuex";
-import CONFIG from "../config";
-import INTENTS from "../components/intent.js";
 import InputComponent from "../components/input.vue";
 import * as MessageComponents from "../components/message/index";
 
@@ -37,7 +34,7 @@ export default {
       let responseValue = "";
       let data = res.data;
       if (res.code === 0) {
-        responseValue = INTENTS[data.intent].call(null, data);
+        responseValue = data;
       } else {
         responseValue = {
           type: "text",
